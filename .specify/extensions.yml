@@ -1,0 +1,31 @@
+hooks:
+  before_clarify:
+    - extension: git
+      command: speckit.git.commit
+      enabled: true
+      optional: false
+      description: Commit pending changes before clarify
+  before_plan:
+    - extension: git
+      command: speckit.git.commit
+      enabled: true
+      optional: false
+      description: Commit pending changes before plan
+  before_tasks:
+    - extension: git
+      command: speckit.git.commit
+      enabled: true
+      optional: false
+      description: Commit pending changes before tasks
+  before_analyze:
+    - extension: git
+      command: speckit.git.commit
+      enabled: true
+      optional: false
+      description: Commit pending changes before analyze
+  before_implement:
+    - extension: git
+      command: speckit.git.commit
+      enabled: true
+      optional: false
+      description: Commit pending changes before implement
