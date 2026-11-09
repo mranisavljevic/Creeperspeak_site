@@ -19,10 +19,10 @@
 
 **Purpose**: Project initialization mirroring `../comk` and `../PracticeEnglish`
 
-- [ ] T001 Create `package.json` (name `creeperspeak-site`, `"type": "module"`, `engines.node >= 20.19`) with scripts `dev`, `build`, `preview`, `test`, `test:e2e`, `build:netlify` exactly as in `contracts/netlify-config.md`
+- [ ] T001 Create `package.json` (name `creeperspeak-site`, `"type": "module"`, `engines.node >= 20.19`) with scripts `dev`, `build`, `preview`, `test`, `test:build`, `test:e2e`, `build:netlify` exactly as in `contracts/netlify-config.md`
 - [ ] T002 [P] Create `.nvmrc` containing `20` and `.gitignore` (node_modules, dist, logs, .env, .DS_Store, .firebase, .netlify, playwright-report, test-results, editor files)
 - [ ] T003 Install devDependencies (`vite@^7`, `vitest`, `@playwright/test`, `firebase-tools`) with `npm install` to produce and commit `package-lock.json`
-- [ ] T004 Create `vite.config.js`: `base: './'`, `build.rollupOptions.input` = index, music, contact, lookmom, 404 (via `resolve(__dirname, ...)`), and a `test` block (`environment: 'node'`, `include: ['tests/**/*.test.js']`, `globalSetup: ['tests/unit/global-setup.js']`)
+- [ ] T004 Create `vite.config.js` (the build only succeeds once `404.html` from T009 exists; create a stub `404.html` here if building before T009): `base: './'`, `build.rollupOptions.input` = index, music, contact, lookmom, 404 (via `resolve(__dirname, ...)`), and a `test` block (`environment: 'node'`, `include: ['tests/**/*.test.js']`, `globalSetup: ['tests/unit/global-setup.js']`)
 
 ---
 
@@ -51,12 +51,12 @@
 
 ### Tests for User Story 1
 
-- [ ] T011 [P] [US1] Create `tests/e2e/site.spec.js` with one spec: each of index/music/contact/lookmom loads with HTTP 200, nav links resolve, and an unknown path renders `404.html` with a link back to `index.html`
+- [ ] T011 [P] [US1] Create `tests/e2e/site.spec.js`: each of index/music/contact/lookmom loads with HTTP 200, nav links resolve, an unknown path renders `404.html` with a link back to `index.html`, and at 390x844 each page has no horizontal scroll (`document.documentElement.scrollWidth <= window.innerWidth`) (SC-006)
 - [ ] T012 [P] [US1] Create `playwright.config.js`: `testDir: 'tests/e2e'`, projects Chromium and WebKit at viewport 390x844, `webServer` running `npm run build && npm run preview` on a fixed port
 
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] Verify the 404 behavior: run `npm run build && npm run preview` and confirm an unknown path serves `404.html`; if `vite preview` does not, set `appType: 'mpa'` in `vite.config.js`
+- [ ] T013 [US1] (do before T011 is expected to pass) Verify the 404 behavior: run `npm run build && npm run preview` and confirm an unknown path serves `404.html`; if `vite preview` does not, set `appType: 'mpa'` in `vite.config.js`
 - [ ] T014 [US1] Write the Firebase and Hover DNS sections of `docs/DEPLOY.md`: create Firebase project, enable Hosting, update `.firebaserc` project id, create Hosting Admin service account and set `FIREBASE_SERVICE_ACCOUNT` in Netlify (Production context only), first deploy, add custom domain `creeperspeak.com`, add `www.creeperspeak.com` as redirect to apex (console-only, FR-014 caveat), Hover DNS edits per `contracts/dns-records.md` (keep MX and existing TXT/SPF, no nameserver change), `dig`/`curl` verification commands, propagation and certificate timing
 - [ ] T015 [US1] Owner action (manual): replace the placeholder id in `.firebaserc` with the real Firebase project id and commit
 - [ ] T016 [US1] Owner action (manual): perform the production hand-off by merging to `master` after Netlify is configured (T020), then add the custom domains in Firebase and edit Hover DNS following `docs/DEPLOY.md`; confirm quickstart step 5 from two networks
@@ -91,7 +91,7 @@
 
 ### Tests for User Story 3
 
-- [ ] T022 [US3] Create `tests/unit/site.test.js` reading built `dist/*.html` and asserting: all relative `href`/`src` resolve to files in `dist/`; `<html lang="en">`; non-empty unique `<title>`; viewport meta; every `<img>` has `alt`; every `target="_blank"` has `rel` containing `noopener`; identical nav markup (ignoring `selected` class) on all pages; no inline `style` attributes; no `dist/` image over 500 KB; footer year equals the current year; every Vite input exists. Run `npm test` and confirm it fails before the fixes below
+- [ ] T022 [US3] Create `tests/unit/site.test.js` reading built `dist/*.html` and asserting: all relative `href`/`src` resolve to files in `dist/`; `<html lang="en">`; non-empty unique `<title>`; viewport meta; every `<img>` has `alt`; every `target="_blank"` has `rel` containing `noopener`; identical nav markup (ignoring `selected` class) on all pages; every page loads `normalize.css`, `main.css`, `responsive.css` in that order and has the `#wrapper`/`header`/`nav`/`section`/`footer` skeleton (constitution II); no inline `style` attributes; no `dist/` image over 500 KB; every Vite input exists. Put the footer-year-equals-current-year check in a separate `tests/unit/year.test.js` (excluded from `npm run test:build`, so it never blocks Netlify deploys). Run `npm test` and confirm it fails before the fixes below
 
 ### Implementation for User Story 3
 
@@ -110,8 +110,8 @@
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [ ] T030 [P] Decide on the nested `creeperspeak_site/` directory (stray Spec Kit duplicate): confirm it is not published (only `dist/` ships) and either remove it or add a note in `README.md`
-- [ ] T031 [P] Add a short comment in `tests/unit/site.test.js` and `README.md` that the copyright-year test fails each January until the footers are bumped
-- [ ] T032 Run the full `specs/001-restore-site-vite-netlify/quickstart.md` validation end to end and record results
+- [ ] T031 [P] Add a short comment in `tests/unit/year.test.js` and `README.md` that the copyright-year test fails each January until the footers are bumped (it runs in `npm test` and CI but not in the Netlify deploy gate)
+- [ ] T032 Run the full `specs/001-restore-site-vite-netlify/quickstart.md` validation end to end and record results, including a manual click-through of every external link (Bandcamp and others) since automated tests only check relative links
 
 ---
 

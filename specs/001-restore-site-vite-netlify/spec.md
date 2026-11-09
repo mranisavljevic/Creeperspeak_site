@@ -4,7 +4,7 @@
 
 **Created**: 2026-11-09
 
-**Status**: Draft
+**Status**: Ready for implementation
 
 **Input**: User description: "This is a very old website I created for personal use. I had planned it to highlight my work as a software engineer, and to have links to my creative projects. I have not used it or updated it in many years, so I'd like to get it working again, and probably to start updating the content. To start, I'd like to get the site just working again, and to add Vite and Netlify, the same way I have with `../comk`. Currently the site is unreachable with the error \"Bad Gateway: Unable to connect to creeperspeak.com:80\". The domain is registered with Hover.com"
 
@@ -94,9 +94,9 @@ The existing pages look right on modern phones and desktops, with no broken link
 - **FR-006**: Pushing to the main branch MUST automatically build and publish the site to production; pushes to other branches MUST produce a separate preview that does not affect production.
 - **FR-012**: Production hosting MUST be on Firebase Hosting. The Netlify build MUST deploy its successful main-branch output to Firebase (Netlify → Firebase), and a failed build or failed hand-off MUST leave the current live version untouched.
 - **FR-013**: Firebase credentials needed for the hand-off MUST be stored as Netlify environment variables and MUST NOT be committed to the repository.
-- **FR-014**: Hosting behavior that the site relies on (HTTPS redirect, `www` → apex redirect, custom not-found page, unchanged `.html` paths) MUST be configured in the Firebase hosting configuration committed to the repository, and MUST NOT depend on Netlify-only features.
+- **FR-014**: Hosting behavior that the site relies on (HTTPS redirect, custom not-found page, unchanged `.html` paths) MUST be configured in the Firebase hosting configuration committed to the repository, and MUST NOT depend on Netlify-only features. The two Firebase console-only settings (attaching the `creeperspeak.com` custom domain and the `www` → apex redirect) cannot be expressed in committed config; they MUST instead be documented as explicit manual steps in `docs/DEPLOY.md`.
 - **FR-007**: The project setup (build tool, hosting configuration, ignore rules, scripts) MUST follow the same conventions as the owner's `comk` project.
-- **FR-008**: The owner MUST be given step-by-step instructions to point the Hover-registered domain at Firebase Hosting (including adding the custom domain in Firebase and any verification record it requires), including which records to change and how to verify it. DNS MUST remain at Hover (no nameserver change); the instructions edit only the apex A/ALIAS and `www` CNAME records and leave other records (e.g. email) untouched.
+- **FR-008**: The owner MUST be given step-by-step instructions to point the Hover-registered domain at Firebase Hosting (including adding the custom domain in Firebase and any verification record it requires), including which records to change and how to verify it. DNS MUST remain at Hover (no nameserver change); the instructions edit only the apex A/ALIAS and `www` CNAME records, plus any verification TXT record Firebase requires, and leave all other records (e.g. email MX/SPF) untouched.
 - **FR-009**: Visitors requesting a missing page MUST see a not-found page that links back to the home page.
 - **FR-010**: Stale details on existing pages (copyright year, missing page language, missing link safety attributes, missing image descriptions) MUST be corrected.
 - **FR-011**: The README MUST document how to run, build, deploy, and update the site.
@@ -132,5 +132,6 @@ The existing pages look right on modern phones and desktops, with no broken link
 - Branch/PR previews stay on Netlify's preview URLs; only production uses Firebase. Firebase preview channels are out of scope.
 - Firebase's default managed certificate for custom domains is acceptable.
 - The Netlify → Firebase hand-off happens inside the Netlify build (not a separate CI service); the exact mechanism is a planning decision.
-- The constitution's Principle VI ("MUST be deployed on Netlify") conflicts with serving production from Firebase; it must be amended (new MINOR/MAJOR version) before implementation to say Netlify builds/previews and Firebase hosts production. The existing plan, research, and quickstart artifacts assume Netlify hosting and must be regenerated via `/speckit-plan`.
+- The constitution's Principle VI was amended (v3.0.0) to say Netlify builds/previews and Firebase hosts production; the plan, research, and quickstart artifacts have been regenerated accordingly.
+- Navigation decision (default, owner may override): the nav is identical on all pages and contains `main.`, `music.` (external link to the Bandcamp page, opening in a new tab) and `contact.`. `music.html` and `lookmom.html` stay reachable at their existing URLs but are not linked from the nav.
 - The constitution's "Static-First, No Build Step" principle conflicts with adopting a build tool; the constitution was amended (v2.0.0) to allow a Vite build step while keeping the output static; no further constitution change is needed.

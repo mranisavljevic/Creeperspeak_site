@@ -24,7 +24,8 @@ Netlify builds and serves previews only; `creeperspeak.com` is never added to Ne
 | `preview` | `vite preview` |
 | `test` | `vitest run` |
 | `test:e2e` | `playwright test` |
-| `build:netlify` | `npm run build && npm test && node scripts/deploy-firebase.mjs` |
+| `test:build` | `vitest run --exclude tests/unit/year.test.js` (deploy-gating tests; excludes the calendar-dependent year check so a new year never blocks a deploy) |
+| `build:netlify` | `npm run build && npm run test:build && node scripts/deploy-firebase.mjs` |
 
 devDependencies: `vite ^7`, `vitest`, `@playwright/test`, `firebase-tools`. Lockfile committed. `engines.node >= 20.19`. `.nvmrc` = `20`.
 
