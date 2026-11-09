@@ -31,5 +31,6 @@
 
 ## Notes
 
-- Vite and Netlify are named only in Assumptions, as explicit owner-requested constraints.
+- Vite, Netlify, and Firebase are named only in Assumptions/Clarifications/FR-012–014 as explicit owner-requested constraints.
 - Constitution conflict (no build step) flagged in Assumptions; amend before implementing.
+- Amended 2026-11-09 for Firebase hosting: constitution Principle VI and existing plan artifacts are now stale; amend constitution, then re-run `/speckit-plan`.

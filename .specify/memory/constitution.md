@@ -1,18 +1,20 @@
 <!--
 Sync Impact Report
-Version change: 1.0.0 → 2.0.0
+Version change: 2.0.0 → 3.0.0
 Modified principles:
-  - I. Static-First, No Build Step → I. Static Output, Vite Build (redefined: Vite is now the
-    required build tool; output MUST still be static files)
-  - IV. Lightweight Assets (clarified: assets are checked against the built output; build-time
-    optimization allowed)
-  - V. Valid, Portable Markup (clarified: Vite `base` MUST keep paths relative/portable)
-Added sections: Principle VI. Netlify Testing and Deployment
+  - VI. Netlify Testing and Deployment → VI. Netlify Build and Preview, Firebase Production
+    (redefined: Netlify no longer hosts production; it builds and serves Deploy Previews, and
+    Firebase Hosting serves production)
+  - V. Valid, Portable Markup (clarified: portability now spans Netlify previews and Firebase)
+Added sections: none
 Removed sections: none
-Modified sections: Technical Constraints (tooling and layout), Development Workflow (build and
-  deploy-preview checks), Governance (unchanged in substance)
-Follow-up TODOs: none. Node version and Vite major version are intentionally left to be pinned
-  in package.json/.nvmrc when the tooling is added.
+Modified sections: Technical Constraints (adds `firebase.json`), Development Workflow (production
+  deploy step)
+Follow-up TODOs:
+  - TODO(FIREBASE_DEPLOY_MECHANISM): choose how Firebase deploys are triggered (GitHub Action vs.
+    Netlify build step/plugin) and record it in the plan. Intentionally deferred.
+  - Node version and Vite major version are still pinned in package.json/.nvmrc when tooling is
+    added.
 -->
 # Creeperspeak Site Constitution
 
@@ -52,17 +54,21 @@ trackers MUST NOT be added without explicit approval.
 ### V. Valid, Portable Markup
 Pages MUST be well-formed HTML with `<!DOCTYPE html>`, `lang` on `<html>`, `charset`, and a
 descriptive `<title>`. Internal links MUST be relative, and Vite `base` MUST be set so the built
-site works from any host or subpath. Dead links and missing assets MUST be fixed before merging.
+site works from any host or subpath (Netlify previews and Firebase Hosting). Dead links and missing assets MUST be fixed before merging.
 
-### VI. Netlify Testing and Deployment
-The site MUST be deployed on Netlify, configured in a committed `netlify.toml` that defines the
-build command (`vite build`), the publish directory, and the pinned Node version. Every pull
-request MUST be verified on its Netlify Deploy Preview before merge, and `master` MUST
-auto-deploy to production only after a successful build. Build output (e.g. `dist/`) and
-`node_modules/` MUST NOT be committed. Secrets MUST NOT be committed; any needed values MUST be
-set as Netlify environment variables.
-Rationale: previews give a real-host test of every change, and a single declared pipeline keeps
-deployment reproducible.
+### VI. Netlify Build and Preview, Firebase Production
+Netlify MUST be used for builds and previews, configured in a committed `netlify.toml` that
+defines the build command (`vite build`), the publish directory, and the pinned Node version.
+Every pull request MUST be verified on its Netlify Deploy Preview before merge. Production MUST
+be hosted on Firebase Hosting, configured in a committed `firebase.json` whose `public` directory
+matches the Vite build output. Production MUST be deployed only from `master`, only after a
+successful build, and from the same build output that Netlify verified. Netlify MUST NOT serve
+the production domain. Build output (e.g. `dist/`) and `node_modules/` MUST NOT be committed.
+Secrets and credentials (e.g. Firebase tokens or service accounts) MUST NOT be committed; they
+MUST be stored as Netlify or CI environment variables/secrets.
+Rationale: previews give a real-host test of every change, while Firebase provides the stable
+production host; deploying the verified build prevents drift between what was tested and what
+ships.
 
 ## Technical Constraints
 
@@ -70,7 +76,7 @@ deployment reproducible.
   `npm run build`, and `npm run preview` MUST work from a clean checkout.
 - Layout: HTML pages are Vite entry points at the project root; `css/` holds stylesheets;
   `img/` holds images (or `public/` for assets copied verbatim). `vite.config.*` and
-  `netlify.toml` live at the root.
+  `netlify.toml`, and `firebase.json` live at the root.
 - Branding: lowercase "creeperspeak." wordmark and the existing visual identity MUST be
   preserved unless a change is explicitly requested.
 - Copyright footer year MUST be kept current when pages are touched.
@@ -84,6 +90,8 @@ deployment reproducible.
 - Before opening a PR, `npm run build` MUST succeed locally.
 - Before merging, the author MUST open each changed page on the Netlify Deploy Preview at
   mobile and desktop widths and confirm links, images, and navigation work.
+- After merge, production MUST be deployed to Firebase Hosting from `master`; the author MUST
+  smoke-test the production URL and confirm it matches the verified preview.
 - Reviews MUST check the changes against the Core Principles above.
 
 ## Governance
@@ -94,4 +102,4 @@ MAJOR for removed or redefined principles, MINOR for added or materially expande
 or sections, PATCH for clarifications. Any deviation from a principle MUST be justified in the
 change description. Compliance is reviewed on every change before merge.
 
-**Version**: 2.0.0 | **Ratified**: 2026-11-09 | **Last Amended**: 2026-11-09
+**Version**: 3.0.0 | **Ratified**: 2026-11-09 | **Last Amended**: 2026-11-09
