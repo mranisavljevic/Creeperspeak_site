@@ -1,11 +1,12 @@
 # Contract: DNS Changes at Hover
 
-Prerequisite: Netlify site created and `creeperspeak.com` + `www.creeperspeak.com` added in Domain management (Netlify shows the exact targets; use those if they differ from below).
+Prerequisite: Firebase project created, Hosting enabled, a first successful deploy done, then Hosting -> Add custom domain for `creeperspeak.com` and for `www.creeperspeak.com` (choose "Redirect to creeperspeak.com"). Firebase shows the exact records; use those values if they differ from the shapes below.
 
 | Action | Type | Host | Value |
 |--------|------|------|-------|
-| Replace existing | A | `@` | `75.2.60.5` (Netlify load balancer) |
-| Replace existing | CNAME | `www` | `<site-name>.netlify.app` |
-| Leave alone | MX, TXT, others | - | - |
+| Add (keep existing TXT, e.g. SPF) | TXT | `@` | Firebase verification string |
+| Replace existing | A | `@` | Firebase A record(s) shown in console |
+| Replace existing | A or CNAME | `www` | Value shown in console |
+| Leave alone | MX, other TXT | - | - |
 
-Do not change nameservers. Verify: `dig creeperspeak.com +short`, `dig www.creeperspeak.com +short`, then `curl -I http://creeperspeak.com` (expect 301 to https) and `curl -I https://www.creeperspeak.com` (expect 301 to apex). Allow minutes to a few hours for propagation; Netlify provisions the certificate after DNS resolves.
+Do not change nameservers. Verify: `dig creeperspeak.com +short`, `dig www.creeperspeak.com +short`, then `curl -I http://creeperspeak.com` (expect redirect to https) and `curl -I https://www.creeperspeak.com` (expect 301 to apex). Allow minutes to ~24 hours for propagation and certificate issuance.
