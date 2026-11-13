@@ -1,0 +1,25 @@
+{
+  "name": "creeperspeak-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "creeperspeak. static site",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:build": "vitest run --exclude tests/unit/year.test.js",
+    "test:e2e": "playwright test",
+    "build:netlify": "npm run build && npm run test:build && node scripts/deploy-firebase.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "firebase-tools": "^15.35.0",
+    "vite": "^7.3.8",
+    "vitest": "^4.1.12"
+  }
+}

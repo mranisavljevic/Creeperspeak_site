@@ -138,3 +138,10 @@ iframe {
    color: #C7CCC6;
 }
 
+
+iframe.bandcamp {
+   border: 0;
+   width: 350px;
+   max-width: 100%;
+   height: 442px;
+}
