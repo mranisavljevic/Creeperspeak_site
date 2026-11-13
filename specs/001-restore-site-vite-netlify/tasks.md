@@ -19,10 +19,10 @@
 
 **Purpose**: Project initialization mirroring `../comk` and `../PracticeEnglish`
 
-- [ ] T001 Create `package.json` (name `creeperspeak-site`, `"type": "module"`, `engines.node >= 20.19`) with scripts `dev`, `build`, `preview`, `test`, `test:build`, `test:e2e`, `build:netlify` exactly as in `contracts/netlify-config.md`
-- [ ] T002 [P] Create `.nvmrc` containing `20` and `.gitignore` (node_modules, dist, logs, .env, .DS_Store, .firebase, .netlify, playwright-report, test-results, editor files)
-- [ ] T003 Install devDependencies (`vite@^7`, `vitest`, `@playwright/test`, `firebase-tools`) with `npm install` to produce and commit `package-lock.json`
-- [ ] T004 Create `vite.config.js` (the build only succeeds once `404.html` from T009 exists; create a stub `404.html` here if building before T009): `base: './'`, `build.rollupOptions.input` = index, music, contact, lookmom, 404 (via `resolve(__dirname, ...)`), and a `test` block (`environment: 'node'`, `include: ['tests/**/*.test.js']`, `globalSetup: ['tests/unit/global-setup.js']`)
+- [X] T001 Create `package.json` (name `creeperspeak-site`, `"type": "module"`, `engines.node >= 20.19`) with scripts `dev`, `build`, `preview`, `test`, `test:build`, `test:e2e`, `build:netlify` exactly as in `contracts/netlify-config.md`
+- [X] T002 [P] Create `.nvmrc` containing `20` and `.gitignore` (node_modules, dist, logs, .env, .DS_Store, .firebase, .netlify, playwright-report, test-results, editor files)
+- [X] T003 Install devDependencies (`vite@^7`, `vitest`, `@playwright/test`, `firebase-tools`) with `npm install` to produce and commit `package-lock.json`
+- [X] T004 Create `vite.config.js` (the build only succeeds once `404.html` from T009 exists; create a stub `404.html` here if building before T009): `base: './'`, `build.rollupOptions.input` = index, music, contact, lookmom, 404 (via `resolve(__dirname, ...)`), and a `test` block (`environment: 'node'`, `include: ['tests/**/*.test.js']`, `globalSetup: ['tests/unit/global-setup.js']`)
 
 ---
 
@@ -32,12 +32,12 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Rename `img/fruitmash.JPG` to `img/fruitmash.jpg` and `img/istanbul_trainstation_small.JPG` to `img/istanbul_trainstation_small.jpg` using `git mv` (two steps via a temp name, since macOS is case-insensitive); update the reference in `index.html`
-- [ ] T006 [P] Create `netlify.toml` per `contracts/netlify-config.md` (build command `npm run build:netlify`, publish `dist`, `NODE_VERSION = "20"`, `X-Robots-Tag: noindex` header on `/*`)
-- [ ] T007 [P] Create `firebase.json` per `contracts/firebase-config.md` (public `dist`, ignore list, `cleanUrls: false`, immutable cache header for `/assets/**`) and `.firebaserc` with placeholder project `creeperspeak-site`
-- [ ] T008 [P] Create `scripts/deploy-firebase.mjs` per `contracts/netlify-config.md`: skip with log "skipping Firebase deploy" and exit 0 unless `CONTEXT=production` and `BRANCH=master`; exit 1 with clear error if `FIREBASE_SERVICE_ACCOUNT` missing; otherwise write JSON to an OS temp file outside the repo, set `GOOGLE_APPLICATION_CREDENTIALS`, run `npx firebase deploy --only hosting`, delete the temp file in a `finally`, propagate the exit code
-- [ ] T009 Create `404.html` at repo root using the shared page skeleton (same head, header/nav, footer as other pages, `lang="en"`), body text "Page not found" with a link to `index.html`
-- [ ] T010 Create `tests/unit/global-setup.js` that runs `vite build` programmatically when `dist/` is missing or older than any source HTML/CSS/img file
+- [X] T005 Rename `img/fruitmash.JPG` to `img/fruitmash.jpg` and `img/istanbul_trainstation_small.JPG` to `img/istanbul_trainstation_small.jpg` using `git mv` (two steps via a temp name, since macOS is case-insensitive); update the reference in `index.html`
+- [X] T006 [P] Create `netlify.toml` per `contracts/netlify-config.md` (build command `npm run build:netlify`, publish `dist`, `NODE_VERSION = "20"`, `X-Robots-Tag: noindex` header on `/*`)
+- [X] T007 [P] Create `firebase.json` per `contracts/firebase-config.md` (public `dist`, ignore list, `cleanUrls: false`, immutable cache header for `/assets/**`) and `.firebaserc` with placeholder project `creeperspeak-site`
+- [X] T008 [P] Create `scripts/deploy-firebase.mjs` per `contracts/netlify-config.md`: skip with log "skipping Firebase deploy" and exit 0 unless `CONTEXT=production` and `BRANCH=master`; exit 1 with clear error if `FIREBASE_SERVICE_ACCOUNT` missing; otherwise write JSON to an OS temp file outside the repo, set `GOOGLE_APPLICATION_CREDENTIALS`, run `npx firebase deploy --only hosting`, delete the temp file in a `finally`, propagate the exit code
+- [X] T009 Create `404.html` at repo root using the shared page skeleton (same head, header/nav, footer as other pages, `lang="en"`), body text "Page not found" with a link to `index.html`
+- [X] T010 Create `tests/unit/global-setup.js` that runs `vite build` programmatically when `dist/` is missing or older than any source HTML/CSS/img file
 
 **Checkpoint**: Foundation ready; `npm run build` produces `dist/` containing all five pages
 
@@ -51,13 +51,13 @@
 
 ### Tests for User Story 1
 
-- [ ] T011 [P] [US1] Create `tests/e2e/site.spec.js`: each of index/music/contact/lookmom loads with HTTP 200, nav links resolve, an unknown path renders `404.html` with a link back to `index.html`, and at 390x844 each page has no horizontal scroll (`document.documentElement.scrollWidth <= window.innerWidth`) (SC-006)
-- [ ] T012 [P] [US1] Create `playwright.config.js`: `testDir: 'tests/e2e'`, projects Chromium and WebKit at viewport 390x844, `webServer` running `npm run build && npm run preview` on a fixed port
+- [X] T011 [P] [US1] Create `tests/e2e/site.spec.js`: each of index/music/contact/lookmom loads with HTTP 200, nav links resolve, an unknown path renders `404.html` with a link back to `index.html`, and at 390x844 each page has no horizontal scroll (`document.documentElement.scrollWidth <= window.innerWidth`) (SC-006)
+- [X] T012 [P] [US1] Create `playwright.config.js`: `testDir: 'tests/e2e'`, projects Chromium and WebKit at viewport 390x844, `webServer` running `npm run build && npm run preview` on a fixed port
 
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] (do before T011 is expected to pass) Verify the 404 behavior: run `npm run build && npm run preview` and confirm an unknown path serves `404.html`; if `vite preview` does not, set `appType: 'mpa'` in `vite.config.js`
-- [ ] T014 [US1] Write the Firebase and Hover DNS sections of `docs/DEPLOY.md`: create Firebase project, enable Hosting, update `.firebaserc` project id, create Hosting Admin service account and set `FIREBASE_SERVICE_ACCOUNT` in Netlify (Production context only), first deploy, add custom domain `creeperspeak.com`, add `www.creeperspeak.com` as redirect to apex (console-only, FR-014 caveat), Hover DNS edits per `contracts/dns-records.md` (keep MX and existing TXT/SPF, no nameserver change), `dig`/`curl` verification commands, propagation and certificate timing
+- [X] T013 [US1] (do before T011 is expected to pass) Verify the 404 behavior: run `npm run build && npm run preview` and confirm an unknown path serves `404.html`; if `vite preview` does not, set `appType: 'mpa'` in `vite.config.js`
+- [X] T014 [US1] Write the Firebase and Hover DNS sections of `docs/DEPLOY.md`: create Firebase project, enable Hosting, update `.firebaserc` project id, create Hosting Admin service account and set `FIREBASE_SERVICE_ACCOUNT` in Netlify (Production context only), first deploy, add custom domain `creeperspeak.com`, add `www.creeperspeak.com` as redirect to apex (console-only, FR-014 caveat), Hover DNS edits per `contracts/dns-records.md` (keep MX and existing TXT/SPF, no nameserver change), `dig`/`curl` verification commands, propagation and certificate timing
 - [ ] T015 [US1] Owner action (manual): replace the placeholder id in `.firebaserc` with the real Firebase project id and commit
 - [ ] T016 [US1] Owner action (manual): perform the production hand-off by merging to `master` after Netlify is configured (T020), then add the custom domains in Firebase and edit Hover DNS following `docs/DEPLOY.md`; confirm quickstart step 5 from two networks
 
@@ -73,9 +73,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T017 [P] [US2] Create `.github/workflows/ci.yml`: triggers `pull_request` and push to `master`; steps checkout, setup-node using `.nvmrc` with npm cache, `npm ci`, `npm run build`, `npm test`, `npx playwright install --with-deps chromium webkit`, `npm run test:e2e`; no secrets, no deploy
-- [ ] T018 [P] [US2] Create `README.md`: project description, prerequisites (Node 20 via `nvm use`), commands (`npm install`, `npm run dev`, `npm run build`, `npm test`, `npm run test:e2e`, `npm run preview`), deploy flow summary (GitHub -> Netlify build/tests -> Firebase on `master`; previews on other branches), and link to `docs/DEPLOY.md` (FR-011)
-- [ ] T019 [US2] Write the Netlify, GitHub and rollback sections of `docs/DEPLOY.md`: connect repo to Netlify with production branch `master`, enable branch deploys and Deploy Previews, do not add `creeperspeak.com` to Netlify, set `FIREBASE_SERVICE_ACCOUNT` scoped to Production only, noindex note for `*.netlify.app`, rollback via Firebase Hosting release history, failure drill from quickstart step 4
+- [X] T017 [P] [US2] Create `.github/workflows/ci.yml`: triggers `pull_request` and push to `master`; steps checkout, setup-node using `.nvmrc` with npm cache, `npm ci`, `npm run build`, `npm test`, `npx playwright install --with-deps chromium webkit`, `npm run test:e2e`; no secrets, no deploy
+- [X] T018 [P] [US2] Create `README.md`: project description, prerequisites (Node 20 via `nvm use`), commands (`npm install`, `npm run dev`, `npm run build`, `npm test`, `npm run test:e2e`, `npm run preview`), deploy flow summary (GitHub -> Netlify build/tests -> Firebase on `master`; previews on other branches), and link to `docs/DEPLOY.md` (FR-011)
+- [X] T019 [US2] Write the Netlify, GitHub and rollback sections of `docs/DEPLOY.md`: connect repo to Netlify with production branch `master`, enable branch deploys and Deploy Previews, do not add `creeperspeak.com` to Netlify, set `FIREBASE_SERVICE_ACCOUNT` scoped to Production only, noindex note for `*.netlify.app`, rollback via Firebase Hosting release history, failure drill from quickstart step 4
 - [ ] T020 [US2] Owner action (manual): create the GitHub repo and push, connect it to Netlify per `docs/DEPLOY.md`, set the Production-scoped env var
 - [ ] T021 [US2] Run quickstart steps 1-4: local preview/build/tests, e2e, a PR with Deploy Preview, merge hand-off, and the failure drill (blank the env var, confirm build fails and the previous version still serves, restore)
 
@@ -91,17 +91,17 @@
 
 ### Tests for User Story 3
 
-- [ ] T022 [US3] Create `tests/unit/site.test.js` reading built `dist/*.html` and asserting: all relative `href`/`src` resolve to files in `dist/`; `<html lang="en">`; non-empty unique `<title>`; viewport meta; every `<img>` has `alt`; every `target="_blank"` has `rel` containing `noopener`; identical nav markup (ignoring `selected` class) on all pages; every page loads `normalize.css`, `main.css`, `responsive.css` in that order and has the `#wrapper`/`header`/`nav`/`section`/`footer` skeleton (constitution II); no inline `style` attributes; no `dist/` image over 500 KB; every Vite input exists. Put the footer-year-equals-current-year check in a separate `tests/unit/year.test.js` (excluded from `npm run test:build`, so it never blocks Netlify deploys). Run `npm test` and confirm it fails before the fixes below
+- [X] T022 [US3] Create `tests/unit/site.test.js` reading built `dist/*.html` and asserting: all relative `href`/`src` resolve to files in `dist/`; `<html lang="en">`; non-empty unique `<title>`; viewport meta; every `<img>` has `alt`; every `target="_blank"` has `rel` containing `noopener`; identical nav markup (ignoring `selected` class) on all pages; every page loads `normalize.css`, `main.css`, `responsive.css` in that order and has the `#wrapper`/`header`/`nav`/`section`/`footer` skeleton (constitution II); no inline `style` attributes; no `dist/` image over 500 KB; every Vite input exists. Put the footer-year-equals-current-year check in a separate `tests/unit/year.test.js` (excluded from `npm run test:build`, so it never blocks Netlify deploys). Run `npm test` and confirm it fails before the fixes below
 
 ### Implementation for User Story 3
 
-- [ ] T023 [P] [US3] Fix `index.html`: add `lang="en"`, title `creeperspeak.`, `alt` text on the fruitmash image, `rel="noopener"` on the music link (`target="_blank"`), footer year to the current year (2026)
-- [ ] T024 [P] [US3] Fix `music.html`: `lang="en"`, title `music. | creeperspeak.`, nav music link to `https://thetornacls.bandcamp.com/` with `target="_blank" rel="noopener"`, add iframe `title` attribute, remove inline `style` from the iframe (use a class), `http://` to `https://` in the fallback Bandcamp link, footer year
-- [ ] T025 [P] [US3] Fix `contact.html`: `lang="en"`, title `contact. | creeperspeak.`, same nav as index (`music.` link with `target="_blank" rel="noopener"`), footer year, check every external link for `rel="noopener"`
-- [ ] T026 [P] [US3] Fix `lookmom.html`: `lang="en"`, title `look, mom. | creeperspeak.`, remove the 4th `look, mom.` nav item so nav matches the other pages (open owner item default: not in nav), same music link attributes, footer year
-- [ ] T027 [US3] Update `404.html` to match the finished nav/footer/title (`not found | creeperspeak.`) from T023-T026
-- [ ] T028 [US3] Move the iframe sizing (`border: 0; width: 350px; height: 442px`) into a class in `css/main.css` and ensure it does not overflow at 390 px in `css/responsive.css`
-- [ ] T029 [US3] Run `npm test` and `npm run test:e2e`; fix any failures (broken links, horizontal scroll at 390x844)
+- [X] T023 [P] [US3] Fix `index.html`: add `lang="en"`, title `creeperspeak.`, `alt` text on the fruitmash image, `rel="noopener"` on the music link (`target="_blank"`), footer year to the current year (2026)
+- [X] T024 [P] [US3] Fix `music.html`: `lang="en"`, title `music. | creeperspeak.`, nav music link to `https://thetornacls.bandcamp.com/` with `target="_blank" rel="noopener"`, add iframe `title` attribute, remove inline `style` from the iframe (use a class), `http://` to `https://` in the fallback Bandcamp link, footer year
+- [X] T025 [P] [US3] Fix `contact.html`: `lang="en"`, title `contact. | creeperspeak.`, same nav as index (`music.` link with `target="_blank" rel="noopener"`), footer year, check every external link for `rel="noopener"`
+- [X] T026 [P] [US3] Fix `lookmom.html`: `lang="en"`, title `look, mom. | creeperspeak.`, remove the 4th `look, mom.` nav item so nav matches the other pages (open owner item default: not in nav), same music link attributes, footer year
+- [X] T027 [US3] Update `404.html` to match the finished nav/footer/title (`not found | creeperspeak.`) from T023-T026
+- [X] T028 [US3] Move the iframe sizing (`border: 0; width: 350px; height: 442px`) into a class in `css/main.css` and ensure it does not overflow at 390 px in `css/responsive.css`
+- [X] T029 [US3] Run `npm test` and `npm run test:e2e`; fix any failures (broken links, horizontal scroll at 390x844)
 
 **Checkpoint**: All three stories work independently
 
@@ -109,8 +109,8 @@
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T030 [P] Decide on the nested `creeperspeak_site/` directory (stray Spec Kit duplicate): confirm it is not published (only `dist/` ships) and either remove it or add a note in `README.md`
-- [ ] T031 [P] Add a short comment in `tests/unit/year.test.js` and `README.md` that the copyright-year test fails each January until the footers are bumped (it runs in `npm test` and CI but not in the Netlify deploy gate)
+- [X] T030 [P] Decide on the nested `creeperspeak_site/` directory (stray Spec Kit duplicate): confirm it is not published (only `dist/` ships) and either remove it or add a note in `README.md`
+- [X] T031 [P] Add a short comment in `tests/unit/year.test.js` and `README.md` that the copyright-year test fails each January until the footers are bumped (it runs in `npm test` and CI but not in the Netlify deploy gate)
 - [ ] T032 Run the full `specs/001-restore-site-vite-netlify/quickstart.md` validation end to end and record results, including a manual click-through of every external link (Bandcamp and others) since automated tests only check relative links
 
 ---
