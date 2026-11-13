@@ -4,10 +4,18 @@ Covers tasks T015, T020, T016, T021 and T032. Do them in this order. Background 
 
 Order matters: Netlify and Firebase must work on a `*.web.app` URL **before** you touch DNS, so the domain never points at something broken.
 
+## Where I left off (updated 2026-11-12)
+
+- **Done:** Steps 1-6 (Firebase project and service account, `.firebaserc` project id, GitHub repo, Netlify site and `FIREBASE_SERVICE_ACCOUNT`, preview check, first production deploy).
+- **Waiting on:** DNS records to propagate so Firebase can verify the custom domain (Step 8 -> Step 9). Re-click **Verify** in Firebase console -> Hosting once the records show up (`dig TXT creeperspeak.com +short`).
+- **Next after DNS verifies:** Step 10 (verify the cutover), Step 7 (failure drill), then Step 11 (final quickstart pass).
+- **Domain transfer:** the transfer from Hover to Squarespace was started and is stuck at "transfer in progress". Check Hover for an unapproved transfer-out or a locked domain. Whichever provider currently hosts DNS is where records must be edited; if the transfer completes mid-process, re-check that the Firebase A/TXT records and the MX/SPF records for `miles@creeperspeak.com` survived.
+- **Not yet done:** open a PR into `master` so the CI workflow (only runs on pull requests and pushes to `master`) and Netlify Deploy Previews run (part of T021).
+
 ## Before you start
 
-- [ ] Run `npm test && npm run test:e2e` locally and confirm they pass.
-- [ ] Commit the pending work on `001-restore-site-vite-netlify`.
+- [x] Run `npm test && npm run test:e2e` locally and confirm they pass.
+- [x] Commit the pending work on `001-restore-site-vite-netlify`.
 
 ---
 
